@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Collection</title>
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #121212;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #1e1e1e;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            color: #00c853;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-links li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .nav-links li a:hover {
+            color: #00c853;
+        }
+
+        /* Profile Circle */
+        .profile-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #00c853;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            margin-left: 2rem;
+        }
+
+        .profile-circle img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 5rem 1rem;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #ccc;
+        }
+
+        /* Movies Section */
+        .movies {
+            padding: 2rem;
+        }
+
+        .movies h2{
+            top: 10px;
+            margin-bottom: 30px;
+        }
+
+        .movie-list {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .movie {
+            width: 150px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .movie img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #1e1e1e;
+            padding: 3rem;
+            border-radius: 10px;
+            width: 400px;
+            height: 400px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .modal-content p {
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        .close {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        /* Buttons */
+        .social-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .button-google {
+            background-color: #db4a39;
+        }
+
+        .button-email {
+            background-color: #555;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        /* Modal Profile Content */
+        .profile-modal-content {
+            background-color: #1e1e1e;
+            padding: 2rem;
+            width: 300px;
+            height: 300px;
+            text-align: center;
+            color: #fff;
+            border-radius: 10px;
+        }
+
+        .profile-modal-content p {
+            margin: 1rem 0;
+            color: #ccc;
+        }
+
+        .logout-button {
+            padding: 0.5rem 1rem;
+            background-color: #db4a39;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Email Login Form Styling */
+        #emailLoginForm {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        #emailLoginForm input[type="email"],
+        #emailLoginForm input[type="password"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: #1e1e1e;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        #emailLoginForm input[type="email"]::placeholder,
+        #emailLoginForm input[type="password"]::placeholder {
+            color: #aaa;
+        }
+
+        #emailLoginForm button {
+            padding: 0.75rem;
+            background-color: #555;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #emailLoginForm button:hover {
+            background-color: #00c853;
+        }
+
+        .trouble-login {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: #aaa;
+            cursor: pointer;
+            text-decoration: underline;
+            text-align: center;
+        }
+           /* Search Bar */
+           .search-bar {
+            width: 50%;
+            margin: 2rem auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.8rem;
+            font-size: 1rem;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: #1e1e1e;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <h1 class="logo">Valerie's Collection</h1>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Movies</a></li>
+            <li><a href="#" id="loginSignupLink">Login/Signup</a></li>
+        </ul>
+        <div id="profileSection" style="display: none;">
+            <div class="profile-circle" onclick="openProfileModal()">
+                <img src="profile-pic.jpg" alt="Profile">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <h2>Explore Our Movie Collection</h2>
+        <p>Sign up or log in to watch amazing movies!</p>
+    </header>
+    <script>
+        // Handle clicking movie to watch
+        function accessMovie(link) {
+            window.open(link, '_blank');
+        }
+    </script>
+
+
+
+     <!-- Search Bar Section -->
+     <div class="search-bar">
+        <input type="text" placeholder="Search for movies..." id="searchInput">
+    </div>
+
+
+   
+    <!-- Movies Section -->
+    <section class="movies">
+        <h2>Featured Movies</h2>
+        <div class="movie-list">
+            <div class="movie" onclick="accessMovie('https://www.youtube.com/watch?v=UefmHtHfSYE')">
+                <img src="movie1.jpg" alt="Movie 1">
+                <p>The Road</p>
+            </div>
+            <div class="movie" onclick="accessMovie('https://www.youtube.com/watch?v=fE9rYMvbMZ4')">
+                <img src="movie2.jpg" alt="Movie 2">
+                <p>Haunted Mansion</p>
+            </div>
+            <div class="movie" onclick="accessMovie('https://www.youtube.com/watch?v=ssaXMrhf1Eo')">
+                <img src="movie3.jpg" alt="Movie 3">
+                <p>Tarot</p>
+            </div>
+            <div class="movie" onclick="accessMovie('https://www.youtube.com/watch?v=m_u8g2BAtOo')">
+                <img src="movie4.jpg" alt="Movie 4">
+                <p>Dilim</p>
+            </div>
+            <div class="movie" onclick="accessMovie('https://www.youtube.com/watch?v=CQX6e1L0KRw')">
+                <img src="movie5.jpg" alt="Movie 5">
+                <p>Maria Leonora Teresa</p>
+            </div>
+            <div class="movie" onclick="accessMovie('https://www.youtube.com/watch?v=VeHymG03dW0')">
+                <img src="movie6.jpg" alt="Movie 6">
+                <p>Third Eye</p>
+            </div>
+            <div class="movie" onclick="accessMovie('https://www.youtube.com/watch?v=IYoGKjgFuUI')">
+                <img src="movie7.jpg" alt="Movie 7">
+                <p>Bloody Crayons</p>
+            </div>
+            <div class="movie" onclick="accessMovie('https://www.youtube.com/watch?v=gL4bxNtL1Bk')">
+                <img src="movie8.jpg" alt="Movie 8">
+                <p>T2</p>
+            </div>
+            <div class="movie" onclick="accessMovie('https://www.youtube.com/watch?v=NBL8xGp3vx0')">
+                <img src="movie9.jpg" alt="Movie 9">
+                <p>Block Z</p>
+            </div>
+            <div class="movie" onclick="accessMovie('https://www.youtube.com/watch?v=8TO4h4oTOrU')">
+                <img src="movie10.jpg" alt="Movie 10">
+                <p>Pagpag</p>
+            </div>
+            <div class="movie" onclick="accessMovie('https://www.youtube.com/watch?v=e7-TevJ3xXk')">
+                <img src="movie11.jpg" alt="Movie 11">
+                <p>Clarita</p>
+            </div>
+            <div class="movie" onclick="accessMovie('https://www.youtube.com/watch?v=kIM6t2wJ2ok')">
+                <img src="movie12.jpg" alt="Movie 12">
+                <p>Tiktik</p>
+            </div>
+            <div class="movie" onclick="accessMovie('https://www.youtube.com/watch?v=7l4FD3epYTg')">
+                <img src="movie13.jpg" alt="Movie 13">
+                <p>Aswang</p>
+            </div>
+            <div class="movie" onclick="accessMovie('https://www.youtube.com/watch?v=4GoM3xke-5k')">
+                <img src="movie14.jpg" alt="Movie 14">
+                <p>Bulong</p>
+            </div>
+            <div class="movie" onclick="accessMovie('https://www.youtube.com/watch?v=YG6C0GKu36c')">
+                <img src="movie15.jpg" alt="Movie 15">
+                <p>Tuhog</p>
+            </div>
+            <div class="movie" onclick="accessMovie('https://www.youtube.com/watch?v=4smi0zawxtE')">
+                <img src="movie16.jpg" alt="Movie 16">
+                <p>Feng Shui 2</p>
+            </div>
+            <div class="movie" onclick="accessMovie('https://www.youtube.com/watch?v=SZyZEoX4G0w')">
+                <img src="movie17.jpg" alt="Movie 17">
+                <p>The Ghost Bride</p>
+            </div>
+            <div class="movie" onclick="accessMovie('https://www.youtube.com/watch?v=WYrDl_DuLvI')">
+                <img src="movie18.jpg" alt="Movie 18">
+                <p>Segunda Mano</p>
+            </div>
+            <div class="movie" onclick="accessMovie('https://www.youtube.com/watch?v=kDPa78vzGvE')">
+                <img src="movie20.jpg" alt="Movie 20">
+                <p>Two Funerals</p>
+            </div>
+            <!-- Add more movies here -->
+        </div>
+    </section>
+   
+     
+    
+
+
+    <!-- Login/Sign Up Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Sign Up / Log In</h2>
+            <p>By continuing, you agree to the <a href="#" style="color: #00c853;">Privacy Policy</a> and the <a href="#" style="color: #00c853;">Terms and Policies</a>.</p>
+            <div class="social-buttons">
+                <button class="button-google" onclick="googleLogin()">Continue with Google</button>
+                <button class="button-email" onclick="emailLogin()">Continue with Email</button>
+            </div>
+            <div class="trouble-login" onclick="troubleLogin()">Trouble logging in?</div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal">
+        <div class="profile-modal-content">
+            <h3>Profile</h3>
+            <p id="profileName"></p>
+            <p id="profileEmail"></p>
+            <button class="logout-button" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <script>
+             // Handle clicking movie to watch
+             function accessMovie(link) {
+                window.open(link, '_blank');
+            }
+    
+    
+    
+        // Google Login functionality
+        function googleLogin() {
+            google.accounts.id.initialize({
+                client_id: 'YOUR_GOOGLE_CLIENT_ID', // Replace with your Google OAuth Client ID
+                callback: handleGoogleLoginResponse
+            });
+            google.accounts.id.prompt(); // Show the Google sign-in prompt
+        }
+
+        // Handle the Google login response
+        function handleGoogleLoginResponse(response) {
+            const user = jwt_decode(response.credential); // Decode the JWT response to get user details
+            localStorage.setItem('user', JSON.stringify(user)); // Save user details in localStorage
+            document.getElementById('profileSection').style.display = 'flex'; // Show profile circle
+            closeModal(); // Close login modal
+            updateProfile(user); // Update the profile section
+        }
+
+        // Update the profile section with user information
+        function updateProfile(user) {
+            const profileCircle = document.querySelector('.profile-circle');
+            const profileImage = profileCircle.querySelector('img');
+            const profileName = document.getElementById('profileName');
+            const profileEmail = document.getElementById('profileEmail');
+
+            if (user.picture) {
+                profileImage.src = user.picture; // Set the profile picture (Google login provides this)
+            }
+
+            profileName.textContent = user.name;
+            profileEmail.textContent = user.email;
+        }
+
+        // Open profile modal
+        function openProfileModal() {
+            document.getElementById('profileModal').style.display = 'flex';
+        }
+
+        // Close profile modal
+        function closeProfileModal() {
+            document.getElementById('profileModal').style.display = 'none';
+        }
+
+        // Email Login functionality
+        function emailLogin() {
+            const email = prompt("Enter your email:");
+            const password = prompt("Enter your password:");
+
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(user => user.email === email && user.password === password);
+
+            if (user) {
+                localStorage.setItem('user', JSON.stringify(user));
+                document.getElementById('profileSection').style.display = 'flex';
+                closeModal();
+                updateProfile(user);
+            } else {
+                alert("Invalid credentials. Please try again.");
+            }
+        }
+
+        // Logout functionality
+        function logout() {
+            localStorage.removeItem('user');
+            document.getElementById('profileSection').style.display = 'none';
+            closeProfileModal();
+            alert('You have logged out successfully');
+        }
+
+        // Open login modal
+        function openModal() {
+            document.getElementById('loginModal').style.display = 'flex';
+        }
+
+        // Close login modal
+        function closeModal() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+
+        // Display login/signup modal when clicking the link
+        document.getElementById('loginSignupLink').onclick = function () {
+            openModal();
+        };
+
+        // Show trouble login option
+        function troubleLogin() {
+            alert('Trouble logging in? Please contact support.');
+        }
+
+        // Function for the search bar
+function searchMovies() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const movies = document.querySelectorAll('.movie');
+
+    movies.forEach(movie => {
+        const title = movie.querySelector('p').textContent.toLowerCase();
+        movie.style.display = title.includes(input) ? 'block' : 'none';
+    });
+}
+
+// Add event listener for search input
+document.getElementById('searchInput').addEventListener('input', searchMovies);
+
+    </script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</body>
+</html>
